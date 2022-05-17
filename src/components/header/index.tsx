@@ -1,1 +1,1 @@
-export * from './Header.Class'
+export * from './Header'
