@@ -4,24 +4,23 @@ import logo from '../../assets/logo.svg'
 import { Layout, Typography, Input, Menu, Button, Dropdown } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 import { NavigateFunction, useNavigate } from "react-router-dom";
-import store, {RootState} from "../../redux/store"
-import { LanguageState } from "../../redux/language/languageReducer"
 import { useTranslation, WithTranslation } from "react-i18next"
 import { addLanguageActionCreator, changeLanguageActionCreator } from "../../redux/language/languageActions"
 import { connect } from "react-redux"
 import { Dispatch } from "redux"
+import { RootState } from "../../redux/store";
 interface RouterProps {
   navigate: NavigateFunction;
 }
 
-const mapState = (state: RootState) => {
+const mapStateToProps = (state: RootState) => {
   return {
     language: state.language,
     languageList: state.languageList
   };
 }
 
-const mapDispatch = (dispatch: Dispatch) => {
+const mapDispatchToProps = (dispatch: Dispatch) => {
   return {
     changeLanguage: (code: "zh" | "en") => {
       const action = changeLanguageActionCreator(code);
@@ -34,11 +33,12 @@ const mapDispatch = (dispatch: Dispatch) => {
   }
 }
 
-type PropsType = RouterProps & WithTranslation & ReturnType<typeof mapState> & ReturnType<typeof mapDispatch>;
+type PropsType = RouterProps &  // react-router 路由props
+              WithTranslation & // i18n
+              ReturnType<typeof mapStateToProps> & ReturnType<typeof mapDispatchToProps>;
 class HeaderComponent extends React.Component<PropsType> {
   
   menuClickHandler = (e) => {
-    console.log(e.key);
     if (e.key === "new") {
       this.props.addLanguage("新语言", "add_language");
     } else {
@@ -109,4 +109,4 @@ const Header1 = props => {
   return <HeaderComponent navigate={navigate} t={t} {...props} />
 }
 
-export const Header = connect(mapState, mapDispatch)(Header1)
+export const Header = connect(mapStateToProps, mapDispatchToProps)(Header1)

@@ -4,20 +4,21 @@ import logo from '../../assets/logo.svg'
 import { Layout, Typography, Input, Menu, Button, Dropdown } from 'antd'
 import { GlobalOutlined } from '@ant-design/icons'
 import { useNavigate } from "react-router-dom";
-import { useSelector } from "../../redux/hooks";
-import { useDispatch } from "react-redux"
-import { Dispatch } from "react";
-import { LanguageAcitonsType } from "../../redux/language/languageActions"
 import { addLanguageActionCreator, changeLanguageActionCreator } from "../../redux/language/languageActions";
 import { useTranslation } from "react-i18next"
+
+// import { useSelector } from "react-redux";
+import { useSelector } from "../../redux/hooks";
+import { useDispatch } from "react-redux"
+import { Dispatch } from "redux";
+import { LanguageAcitonsType } from "../../redux/language/languageActions";
 
 export const Header: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();
   const language = useSelector((state) => state.language)
   const languageList = useSelector((state) => state.languageList)
-  const dispatch = useDispatch();
-  // const dispatch = useDispatch<Dispatch<LanguageAcitonsType>>()
+  const dispatch = useDispatch<Dispatch<LanguageAcitonsType>>();
 
   const menuClickHandler = (e) => {
     console.log(e.key);
